@@ -1,284 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amolty</title>
-
+    <title>Amolty | Special Gift</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           1. التنسيقات الأصلية الخاصة بك (بدون تعديل)
-           ========================================= */
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-color: #ff4d6d;
+            --secondary-color: #ff0055;
+            --bg-dark: #0a0a0a;
         }
 
-        body{
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
             font-family: 'Cairo', sans-serif;
-            background-color: #000; /* خلفية سوداء عامة */
-            overflow-x: hidden;
-        }
-
-        .container{
-            min-height: 100vh;
-            /* استبدل الصورة برابط شغال أو مسارك الأصلي */
-            background: url("images/jason-leung-Xaanw0s0pMk-unsplash.jpg") center/cover no-repeat;
-            position: relative;
-        }
-
-        .overlay{
-            width: 100%;
-            height: 100vh;
-            background: rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .heart{
-            width: clamp(150px, 50%, 300px);
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse{
-            from{ transform: scale(1); }
-            to{ transform: scale(1.2); }
-        }
-
-        .words{
-            text-align: center;
-            color: rgb(255, 255, 255);
-        }
-
-        .words h2:nth-child(1){ font-size: clamp(50px, 10vw, 120px); }
-        .words h2:nth-child(2){ font-size: clamp(40px, 8vw, 80px); color: #ff4d6d; }
-
-        .edcontainer{
-            background:url("images/steven-lynn-CGygsFrV-Cc-unsplash.jpg") center/cover no-repeat;
-            min-height: 100vh;
-            /* background: #1a1a1a; */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-        }
-                .darkk{
-            width: 100%;
-            height: 100vh;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .ques{ font-size: clamp(40px, 8vw, 100px); color:#ff4d6d; }
-        .kalam{
-            max-width: 800px;
-            font-size: clamp(18px, 4vw, 24px);
-            text-align: center;
-            color:#fff;
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-
-        .thcontainer{
-            min-height: 100vh;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .vidf{
-            width: 90%;
-            max-width: 500px;
-            border: 3px solid #ff4d6d;
-            border-radius: 15px;
-        }
-
-        .endo{ font-size: clamp(30px, 6vw, 60px); color: #ff4d6d; margin-top: 20px; }
-
-        /* =========================================
-           2. تنسيقات أنيميشن الفيديو (في آخر الصفحة)
-           ========================================= */
-        .programmer-love-section {
-            background-color: #000; /* خلفية سوداء تماماً */
-            min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            background-color: var(--bg-dark);
+            color: white;
             overflow: hidden;
-            z-index: 100;
         }
 
-        #animation-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+        /* 1. شاشة الدخول */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
         }
 
-        .neon-title-animated {
-            font-family: 'Cairo', sans-serif;
-            font-weight: 900;
-            color: #fff;
-            font-size: clamp(2.5rem, 12vw, 6rem);
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 109, 0.3);
             text-align: center;
-            z-index: 10;
-            /* تأثير توهج النيون المتغير */
-            text-shadow: 
-                0 0 10px #fff,
-                0 0 20px #ff0055,
-                0 0 40px #ff0055,
-                0 0 80px #ff0055;
-            animation: pulseGlowAnimation 1.5s infinite alternate ease-in-out;
-            direction: ltr; /* لضمان ظهور النص الإنجليزي بشكل صحيح */
         }
 
-        @keyframes pulseGlowAnimation {
-            from { transform: scale(0.98); opacity: 0.8; text-shadow: 0 0 10px #fff, 0 0 20px #ff0055; }
-            to { transform: scale(1.02); opacity: 1; text-shadow: 0 0 20px #fff, 0 0 40px #ff0055, 0 0 60px #ff0055; }
+        input[type="password"] {
+            padding: 15px; width: 250px; font-size: 18px; border-radius: 12px;
+            border: 2px solid var(--primary-color); background: rgba(0,0,0,0.5);
+            color: #fff; text-align: center; margin-bottom: 25px; outline: none;
         }
 
-        /* تنسيقات الـ Responsive للموبايل */
-        @media (max-width: 600px) {
-            .neon-title-animated {
-                letter-spacing: 2px;
-            }
+        .btn-main {
+            padding: 12px 40px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none; color: white; border-radius: 50px; font-weight: 700;
+            cursor: pointer; transition: 0.4s; font-family: 'Cairo';
+        }
+
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4); }
+
+        /* إعدادات الأجزاء */
+        section { display: none; min-height: 100vh; width: 100%; opacity: 0; transition: opacity 1s ease; }
+
+        /* سيكشن البداية (هابي بيرثداي) */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070") center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        /* سيكشن الكلام */
+        .text-section {
+            background: #0f0f0f;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 35px; border-radius: 30px;
+            max-width: 90%; width: 650px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .kalam {
+            font-size: clamp(16px, 4vw, 20px); line-height: 1.8;
+            color: #e0e0e0; margin-bottom: 25px;
+        }
+
+        /* الفيديو */
+        .video-container { width: 100%; max-width: 500px; padding: 20px; }
+        video { width: 100%; border-radius: 20px; border: 4px solid var(--primary-color); }
+
+        /* النهاية */
+        .neon-text {
+            font-size: clamp(3rem, 15vw, 7rem); font-weight: 900;
+            color: #fff; text-shadow: 0 0 20px var(--primary-color);
+            z-index: 10; text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <section class="container" >
-        <div class="overlay">
-            <img class="heart" src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" alt="heart">
-            <div class="words">
-                <h2>Happy Birthday</h2>
-                <h2 style="font-size: 90px;">A'mal</h2>
-            </div>
+    <div id="password-screen">
+        <div class="login-box">
+            <h2 style="margin-bottom: 25px; color: var(--primary-color);">Secret Entry</h2>
+            <input type="password" id="passInput" placeholder="أدخل الكود الخاص...">
+            <br>
+            <button class="btn-main" onclick="checkPassword()">فتح المفاجأة</button>
+        </div>
+    </div>
+
+    <section id="sec1" class="hero-section">
+        <div style="text-align: center;">
+            <h2 style="font-size: clamp(40px, 8vw, 70px); font-weight: 300;">Happy Birthday</h2>
+            <h2 style="font-size: clamp(60px, 15vw, 110px); color: var(--primary-color); font-weight: 900;">A'mal</h2>
+            <button class="btn-main" style="margin-top: 30px;" onclick="showSection('sec2')">إليكِ كلماتي</button>
         </div>
     </section>
 
-    <section class="edcontainer">
-        <div class="darkk">
-        <h2 class="ques"></h2>
-        <p class="kalam" dir="rtl" style="font-size: 22px;">
-           آمال... كل سنه و انت طيبه يا نن عيوني.
-           <br>
-اه كبرتي سنه يا امولتي لكن لسه هتفضلي في عيني الطفله الصغيره اللي حبيتها بسبب تصرفاتها التلقائية و طبعها الهادي دائما و كمان صوتك الرقيق الناعم و ملامحك الطفوليه الهادئه اللي بتريح عيوني.
-<br>
-اول سنه تكبريها و انت قدامي يا آمال و وعد هتفضلي تكبري قدام عيني لحد اخر يوم في عمري (بمعنى اصح انت عمري).
-<br>
-آمال انا حبيتك بكل جوارحي و كل حته فيا بتحبك....عيوني بتحب كل حاجه فيكي و كل تفاصيلك الصغيره و كمان عبثياتك و ودني بتحب صوتك و بتحب الريكات اللي بتبعتيها دايما و بُقّي بيحب يتكلم معاكي..... دائما بحس انك بتفهمي انا بقولك ايه دائما و بتحاولي تبقي احسن معايا و بتعملي كل حاجه عشاني يا امولة 
-اه بقولك احيانا انك مش بتفهميني لكن مش قصدي من هذه الناحيه;لانك احسن حد بيسمعني و احسن حد بيديني نصيحه لاني متاكد انك مستحيل تضليني او تخليني أفقد ثقتي فيكي و متاكد انك الست الوحيده اللي ممكن ا آمنها على كل حاجه في حياتي و لذلك اديتك قلبي من غير ما افكر حتى.
-<br>
-ربنا يديمك ليا لحد اخر يوم في حياتي و يخليكي ليا يا امولة و اهم حاجه هي أن ربنا يحققلك كل احلامك في عامك الجديد و يبقى خير ليكي من كل الأعوام اللي فاتت و إن شاء الله تحققي كل احلامك و أهدافك فيه و خليكي عارفه اني كده كده هفضل معاكي و جنبك دائما طول ما ربنا مطول في عمري و مستحيل استغنى عنك ولا اسيبك لغيرك يا صديقة رحلتي 
-دمتي ليا خير رفيق يا امولتي ♥️
-        </p>
+    <section id="sec2" class="text-section">
+        <div class="glass-card">
+            <p class="kalam" dir="rtl">
+                آمال... كل سنه و انت طيبه يا نن عيوني.
+                اه كبرتي سنه يا امولتي لكن لسه هتفضلي في عيني الطفله الصغيره اللي حبيتها بسبب تصرفاتها التلقائية و طبعها الهادي دائما و كمان صوتك الرقيق الناعم و ملامحك الطفوليه الهادئه اللي بتريح عيوني.
+                اول سنه تكبريها و انت قدامي يا آمال و وعد هتفضلي تكبري قدام عيني لحد اخر يوم في عمري (بمعنى اصح انت عمري).
+                آمال انا حبيتك بكل جوارحي و كل حته فيا بتحبك....عيوني بتحب كل حاجه فيكي و كل تفاصيلك الصغيره بحب عبثك و ودني بتحب صوتك و بتحب الريكات اللي بتبعتيها دايما و بُقّي بيحب يتكلم معاكي دائما بحس انك بتفهمي انا بقولك ايه دائما و بتحاولي تبقي احسن معايا و بتعملي كل حاجه عشاني يا امولة
+            </p>
+            <button class="btn-main" onclick="showSection('sec3')">التالي</button>
         </div>
     </section>
 
-    <section class="thcontainer">
-        <video class="vidf" controls>
-            <source src="videos/0413 (1) (1) (1).mp4" type="video/mp4">
-        </video>
-        <!-- <h2 class="endo">Finally</h2> -->
-        <h2 style="color: #fff; text-align: center; font-size: 1rem; margin-top: 10px; padding: 0 20px;">
-            +1 year 
-        </h2>
+    <section id="sec3" class="text-section">
+        <div class="glass-card">
+            <p class="kalam" dir="rtl">
+                اه بقولك احيانا انك مش بتفهميني لكن مش قصدي من هذه الناخيه لانك احسن حد بيسمعني و احسن حد بيديني نصيحه لاني متاكد انك مستحيل تضليني او تخليني أفقد ثقتي فيكي و متاكد انك الست الوحيده اللي ممكن ا آمنها على كل حاجه في حياتي و لذلك اديتك قلبي من غير ما افكر حتى.
+                ربنا يديمك ليا لحد اخر يوم في حياتي و يخليكي ليا يا امولة و اهم حاجه هي أن ربنا يحققلك كل احلامك في عامك الجديد و يبقى خير ليكي من كل الأعوام اللي فاتت و إن شاء الله تحققي كل احلامك و أهدافك فيه و خليكي عارفه اني كده كده هفضل معاكي و جنبك دائما طول ما ربنا مطول في عمري و مستحيل استغنى عنك ولا اسيبك لغيرك يا صديقة رحلتي 
+                دمتي ليا خير رفيق يا امولتي ♥️
+            </p>
+            <button class="btn-main" onclick="showSection('sec4')">شوفي الفيديو</button>
+        </div>
     </section>
 
-    <section class="programmer-love-section">
-        <canvas id="animation-canvas"></canvas>
-        <h1 class="neon-title-animated">I LOVE YOU</h1>
-        <p style="color: #fff; font-size: 2rem; margin-top: 20px; z-index: 10;">Forever & Always</p>
+    <section id="sec4" class="hero-section" style="background: #000;">
+        <div class="video-container">
+            <video id="v1" controls>
+                <source src="videos/0413 (1) (1) (1).mp4" type="video/mp4">
+            </video>
+        </div>
+        <button class="btn-main" onclick="showSection('sec5')">آخر حاجة</button>
+    </section>
+
+    <section id="sec5" class="text-section" style="position: relative; overflow: hidden; background: #000;">
+        <canvas id="bg-canvas" style="position: absolute; top:0; left:0;"></canvas>
+        <div style="z-index: 10; text-align: center;">
+            <h1 class="neon-text">I LOVE YOU</h1>
+            <p style="font-size: 1.5rem; margin-top: 20px; opacity: 0.8;">Forever & Always</p>
+        </div>
     </section>
 
     <script>
-        const canvas = document.getElementById('animation-canvas');
-        const ctx = canvas.getContext('2d');
-        let heartsAnimation = [];
+        function checkPassword() {
+            if (document.getElementById('passInput').value === "1842009") {
+                const screen = document.getElementById('password-screen');
+                screen.style.opacity = '0';
+                setTimeout(() => {
+                    screen.style.display = 'none';
+                    showSection('sec1');
+                }, 800);
+            } else { alert("الكود خاطئ يا أمولتي ❤️"); }
+        }
 
-        // ضبط حجم الكانفاس ليناسب الشاشة
-        function resizeCanvas() {
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => {
+                s.style.display = 'none';
+                s.style.opacity = '0';
+            });
+            const target = document.getElementById(id);
+            target.style.display = 'flex';
+            setTimeout(() => { target.style.opacity = '1'; }, 50);
+            if (id === 'sec5') { initFinalEffect(); }
+        }
+
+        function initFinalEffect() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            let particles = [];
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = Math.random() > 0.5 ? '#ff4d6d' : '#ffffff';
+                }
+                update() { this.x += this.speedX; this.y += this.speedY; if (this.size > 0.2) this.size -= 0.01; }
+                draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+            }
+            function handleParticles() {
+                for (let i = 0; i < 5; i++) { particles.push(new Particle()); }
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    if (particles[i].size <= 0.3) { particles.splice(i, 1); i--; }
+                }
+            }
+            function animate() {
+                ctx.fillStyle = 'rgba(0,0,0,0.05)';
+                ctx.fillRect(0,0, canvas.width, canvas.height);
+                handleParticles();
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        // فئة (Class) لإنشاء قلوب ملونة متحركة مثل الفيديو
-        class AnimatedHeart {
-            constructor() {
-                this.resetHeart();
-            }
-            resetHeart() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 200; // يبدأ من تحت الشاشة بمسافات مختلفة
-                this.size = Math.random() * 12 + 8; // حجم عشوائي
-                this.speed = Math.random() * 1.5 + 0.5; // سرعة بطيئة ورومانسية
-                // الألوان المبعثرة مثل الفيديو (بينك، أزرق، أخضر، أصفر)
-                this.color = ['#ff0055', '#00b3ff', '#33ff00', '#ffcc00', '#cc00ff'][Math.floor(Math.random() * 5)];
-                this.opacity = Math.random() * 0.6 + 0.2; // شفافية متغيرة
-            }
-            drawHeart() {
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                
-                // رسم القلب باستخدام Bezier Curves لجودة أفضل
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.bezierCurveTo(this.x - this.size, this.y - this.size, this.x - this.size, this.y - (this.size * 2), this.x, this.y - (this.size * 2));
-                ctx.bezierCurveTo(this.x + this.size, this.y - (this.size * 2), this.x + this.size, this.y - this.size, this.x, this.y);
-                ctx.fill();
-                
-                // إضافة توهج (Neon Glow) للقلب
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = this.color;
-            }
-            updateHeart() {
-                this.y -= this.speed; // التحرك للأعلى
-                // إعادة تعيين القلب إذا خرج من الشاشة
-                if (this.y < -50) this.resetHeart();
-            }
-        }
-
-        // إنشاء مجموعة من القلوب
-        function initHearts() {
-            heartsAnimation = [];
-            for (let i = 0; i < 60; i++) { // عدد القلوب (60 مناسب للأداء)
-                heartsAnimation.push(new AnimatedHeart());
-            }
-        }
-
-        // حلقة التحريك (Animation Loop)
-        function animateScene() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح الإطار السابق
-            heartsAnimation.forEach(h => { 
-                h.updateHeart(); 
-                h.drawHeart(); 
-            });
-            requestAnimationFrame(animateScene);
-        }
-
-        initHearts();
-        animateScene();
     </script>
 </body>
 </html>

@@ -10,7 +10,8 @@
         :root {
             --primary-color: #ff4d6d;
             --secondary-color: #ff0055;
-            --bg-dark: #0a0a0a;
+            --bg-dark: #050505;
+            --glass: rgba(255, 255, 255, 0.07);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,9 +21,10 @@
             background-color: var(--bg-dark);
             color: white;
             overflow: hidden;
+            direction: rtl;
         }
 
-        /* 1. شاشة الدخول */
+        /* شاشة الدخول */
         #password-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -30,144 +32,217 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .login-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 77, 109, 0.3);
             text-align: center;
+            width: 85%;
+            max-width: 400px;
         }
 
         input[type="password"] {
-            padding: 15px; width: 250px; font-size: 18px; border-radius: 12px;
-            border: 2px solid var(--primary-color); background: rgba(0,0,0,0.5);
+            padding: 15px; width: 100%; font-size: 20px; border-radius: 15px;
+            border: 2px solid var(--primary-color); background: rgba(0,0,0,0.6);
             color: #fff; text-align: center; margin-bottom: 25px; outline: none;
         }
 
         .btn-main {
-            padding: 12px 40px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 15px 40px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             border: none; color: white; border-radius: 50px; font-weight: 700;
-            cursor: pointer; transition: 0.4s; font-family: 'Cairo';
+            cursor: pointer; transition: 0.3s; font-family: 'Cairo'; font-size: 1.1rem;
         }
 
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4); }
+        .btn-back {
+            padding: 12px 20px; background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); color: white; border-radius: 50px;
+            cursor: pointer; transition: 0.3s; font-family: 'Cairo';
+        }
 
-        /* إعدادات الأجزاء */
-        section { display: none; min-height: 100vh; width: 100%; opacity: 0; transition: opacity 1s ease; }
+        /* السيكشنز */
+        section { 
+            display: none; min-height: 100vh; width: 100%; opacity: 0; 
+            flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease; padding: 25px; text-align: center;
+        }
 
-        /* سيكشن البداية (هابي بيرثداي) */
+        /* تكبير نصوص المقدمة للفوم */
+        .hero-section h2:first-child {
+            font-size: clamp(2.5rem, 10vw, 4rem) !important;
+            margin-bottom: 10px;
+        }
+        .hero-section h2:nth-child(2) {
+            font-size: clamp(5.5rem, 25vw, 10rem) !important;
+            line-height: 1;
+        }
+
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070") center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-
-        /* سيكشن الكلام */
-        .text-section {
-            background: #0f0f0f;
-            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070") center/cover;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 35px; border-radius: 30px;
-            max-width: 90%; width: 650px;
+            background: var(--glass);
+            padding: 35px 25px; border-radius: 35px;
+            width: 100%; max-width: 600px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+            backdrop-filter: blur(15px);
         }
 
         .kalam {
-            font-size: clamp(16px, 4vw, 20px); line-height: 1.8;
-            color: #e0e0e0; margin-bottom: 25px;
+            font-size: clamp(19px, 5.5vw, 25px); line-height: 1.8;
+            color: #ffffff; margin-bottom: 25px;
         }
 
-        /* الفيديو */
-        .video-container { width: 100%; max-width: 500px; padding: 20px; }
-        video { width: 100%; border-radius: 20px; border: 4px solid var(--primary-color); }
-
-        /* النهاية */
-        .neon-text {
-            font-size: clamp(3rem, 15vw, 7rem); font-weight: 900;
-            color: #fff; text-shadow: 0 0 20px var(--primary-color);
-            z-index: 10; text-align: center;
+        /* حاوية القلب النصي */
+        .heart-container {
+            position: relative;
+            width: 380px;
+            height: 380px;
+            animation: heartPulse 0.8s infinite alternate ease-in-out;
         }
+
+        @keyframes heartPulse {
+            from { transform: scale(0.95); }
+            to { transform: scale(1.05); }
+        }
+
+        .heart-svg { width: 100%; height: 100%; overflow: visible; }
+        
+        .heart-text {
+            fill: var(--primary-color);
+            font-size: 42px;
+            font-weight: 900;
+            text-shadow: 0 0 20px var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        .nav-dots {
+            position: fixed; bottom: 30px; display: flex; gap: 10px; z-index: 100;
+            left: 50%; transform: translateX(-50%);
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+        .dot.active { background: var(--primary-color); width: 25px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="password-screen">
         <div class="login-box">
-            <h2 style="margin-bottom: 25px; color: var(--primary-color);">Secret Entry</h2>
-            <input type="password" id="passInput" placeholder="أدخل الكود الخاص...">
-            <br>
-            <button class="btn-main" onclick="checkPassword()">فتح المفاجأة</button>
+            <h2 style="margin-bottom: 20px; color: var(--primary-color);">Special Access</h2>
+            <input type="password" id="passInput" placeholder="اكتبي الباسورد">
+            <button class="btn-main" onclick="checkPassword()" style="width: 100%;">دخول</button>
         </div>
     </div>
 
     <section id="sec1" class="hero-section">
-        <div style="text-align: center;">
-            <h2 style="font-size: clamp(40px, 8vw, 70px); font-weight: 300;">Happy Birthday</h2>
-            <h2 style="font-size: clamp(60px, 15vw, 110px); color: var(--primary-color); font-weight: 900;">A'mal</h2>
-            <button class="btn-main" style="margin-top: 30px;" onclick="showSection('sec2')">إليكِ كلماتي</button>
-        </div>
+        <h2 style="font-weight: 300; letter-spacing: 2px;">Happy Birthday</h2>
+        <h2 style="color: var(--primary-color); font-weight: 900; text-shadow: 0 0 30px var(--primary-color);">A'mal</h2>
+        <button class="btn-main" style="margin-top: 50px;" onclick="showSection('sec2')">اقرائي كلماتِ</button>
     </section>
 
-    <section id="sec2" class="text-section">
+    <section id="sec2">
         <div class="glass-card">
-            <p class="kalam" dir="rtl">
-                آمال... كل سنه و انت طيبه يا نن عيوني.
-                اه كبرتي سنه يا امولتي لكن لسه هتفضلي في عيني الطفله الصغيره اللي حبيتها بسبب تصرفاتها التلقائية و طبعها الهادي دائما و كمان صوتك الرقيق الناعم و ملامحك الطفوليه الهادئه اللي بتريح عيوني.
-                اول سنه تكبريها و انت قدامي يا آمال و وعد هتفضلي تكبري قدام عيني لحد اخر يوم في عمري (بمعنى اصح انت عمري).
-                آمال انا حبيتك بكل جوارحي و كل حته فيا بتحبك....عيوني بتحب كل حاجه فيكي و كل تفاصيلك الصغيره بحب عبثك و ودني بتحب صوتك و بتحب الريكات اللي بتبعتيها دايما و بُقّي بيحب يتكلم معاكي دائما بحس انك بتفهمي انا بقولك ايه دائما و بتحاولي تبقي احسن معايا و بتعملي كل حاجه عشاني يا امولة
-            </p>
-            <button class="btn-main" onclick="showSection('sec3')">التالي</button>
+            <p class="kalam">آمال... كل سنه و انت طيبه يا نن عيوني.
+اه كبرتي سنه يا امولتي لكن لسه هتفضلي في عيني الطفله الصغيره اللي حبيتها بسبب تصرفاتها التلقائية و طبعها الهادي دائما و كمان صوتك الرقيق الناعم و ملامحك الطفوليه الهادئه اللي بتريح عيوني.
+اول سنه تكبريها و انت قدامي يا آمال و وعد هتفضلي تكبري قدام عيني لحد اخر يوم في عمري (بمعنى اصح انت عمري).</p>
+            <div class="btn-group" style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn-back" onclick="showSection('sec1')">رجوع</button>
+                <button class="btn-main" onclick="showSection('sec3')">التالي</button>
+            </div>
         </div>
     </section>
 
-    <section id="sec3" class="text-section">
+    <section id="sec3">
         <div class="glass-card">
-            <p class="kalam" dir="rtl">
-                اه بقولك احيانا انك مش بتفهميني لكن مش قصدي من هذه الناخيه لانك احسن حد بيسمعني و احسن حد بيديني نصيحه لاني متاكد انك مستحيل تضليني او تخليني أفقد ثقتي فيكي و متاكد انك الست الوحيده اللي ممكن ا آمنها على كل حاجه في حياتي و لذلك اديتك قلبي من غير ما افكر حتى.
-                ربنا يديمك ليا لحد اخر يوم في حياتي و يخليكي ليا يا امولة و اهم حاجه هي أن ربنا يحققلك كل احلامك في عامك الجديد و يبقى خير ليكي من كل الأعوام اللي فاتت و إن شاء الله تحققي كل احلامك و أهدافك فيه و خليكي عارفه اني كده كده هفضل معاكي و جنبك دائما طول ما ربنا مطول في عمري و مستحيل استغنى عنك ولا اسيبك لغيرك يا صديقة رحلتي 
-                دمتي ليا خير رفيق يا امولتي ♥️
-            </p>
-            <button class="btn-main" onclick="showSection('sec4')">شوفي الفيديو</button>
+            <p class="kalam">مال انا حبيتك بكل جوارحي و كل حته فيا بتحبك....عيوني بتحب كل حاجه فيكي و كل تفاصيلك الصغيره بحب عبثك و ودني بتحب صوتك و بتحب الريكات اللي بتبعتيها دايما و بُقّي بيحب يتكلم معاكي دائما بحس انك بتفهمي انا بقولك ايه دائما و بتحاولي تبقي احسن معايا و بتعملي كل حاجه عشاني يا امولة</p>
+            <div class="btn-group" style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn-back" onclick="showSection('sec2')">رجوع</button>
+                <button class="btn-main" onclick="showSection('sec4')">التالي</button>
+            </div>
         </div>
     </section>
 
-    <section id="sec4" class="hero-section" style="background: #000;">
-        <div class="video-container">
-            <video id="v1" controls>
-                <source src="videos/0413 (1) (1) (1).mp4" type="video/mp4">
-            </video>
+    <section id="sec4">
+        <div class="glass-card">
+            <p class="kalam">اه بقولك احيانا انك مش بتفهميني لكن مش قصدي من هذه الناحيه لانك احسن حد بيسمعني و احسن حد بيديني نصيحه لاني متاكد انك مستحيل تضليني او تخليني أفقد ثقتي فيكي و متاكد انك الست الوحيده اللي ممكن ا آمنها على كل حاجه في حياتي و لذلك اديتك قلبي من غير ما افكر حتى.</p>
+            <div class="btn-group" style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn-back" onclick="showSection('sec3')">رجوع</button>
+                <button class="btn-main" onclick="showSection('sec5')">التالي</button>
+            </div>
         </div>
-        <button class="btn-main" onclick="showSection('sec5')">آخر حاجة</button>
     </section>
 
-    <section id="sec5" class="text-section" style="position: relative; overflow: hidden; background: #000;">
-        <canvas id="bg-canvas" style="position: absolute; top:0; left:0;"></canvas>
-        <div style="z-index: 10; text-align: center;">
-            <h1 class="neon-text">I LOVE YOU</h1>
-            <p style="font-size: 1.5rem; margin-top: 20px; opacity: 0.8;">Forever & Always</p>
+    <section id="sec5">
+        <div class="glass-card">
+            <p class="kalam">
+ربنا يديمك ليا لحد اخر يوم في حياتي و يخليكي ليا يا امولة و اهم حاجه هي أن ربنا يحققلك كل احلامك في عامك الجديد و يبقى خير ليكي من كل الأعوام اللي فاتت و إن شاء الله تحققي كل احلامك و أهدافك فيه و خليكي عارفه اني كده كده هفضل معاكي و جنبك دائما طول ما ربنا مطول في عمري و مستحيل استغنى عنك ولا اسيبك لغيرك يا صديقة رحلتي 
+دمتي ليا خير رفيق يا امولتي ♥️</p>
+            <div class="btn-group" style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn-back" onclick="showSection('sec4')">رجوع</button>
+                <button class="btn-main" onclick="showSection('sec6')">الفيديو</button>
+            </div>
         </div>
     </section>
+
+    <section id="sec6" style="background: #000;">
+        <video id="v1" controls style="width:90%; max-width:400px; border-radius:20px; border: 2px solid var(--primary-color);">
+            <source src="videos/0413 (1) (1) (1).mp4" type="video/mp4">
+        </video>
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button class="btn-back" onclick="showSection('sec5')">رجوع</button>
+            <button class="btn-main" onclick="showSection('sec7')">آخر حاجة</button>
+        </div>
+    </section>
+
+    <section id="sec7" style="background: #000; overflow: hidden;">
+        <canvas id="heartCanvas" style="position: absolute; top:0; left:0; width: 100%; height: 100%; z-index: 1;"></canvas>
+        <div style="z-index: 10; display:flex; flex-direction:column; align-items:center;">
+            <div class="heart-container">
+                <svg class="heart-svg" viewBox="0 0 500 500">
+                    <defs>
+                        <path id="lovePath" d="M250,120 C180,20 20,120 20,220 C20,350 250,480 250,480 C250,480 480,350 480,220 C480,120 320,20 250,120 Z" />
+                    </defs>
+                    <text class="heart-text">
+                        <textPath xlink:href="#lovePath" startOffset="0%">
+                            I LOVE YOU AMAL FOREVER • I LOVE YOU AMAL FOREVER • I LOVE YOU AMAL FOREVER •
+                            <animate attributeName="startOffset" from="0%" to="100%" dur="5s" repeatCount="indefinite" />
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+            <p style="margin-top:20px; font-weight:300; letter-spacing:8px; color:rgba(255,255,255,0.7); text-shadow: 0 0 10px var(--primary-color);">FOREVER</p>
+            <button class="btn-back" style="margin-top: 30px;" onclick="showSection('sec6')">رجوع للفيديو</button>
+        </div>
+    </section>
+
+    <div class="nav-dots" id="dotContainer" style="display: none;">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
 
     <script>
+        // التحقق من الباسورد
         function checkPassword() {
             if (document.getElementById('passInput').value === "1842009") {
-                const screen = document.getElementById('password-screen');
-                screen.style.opacity = '0';
-                setTimeout(() => {
-                    screen.style.display = 'none';
-                    showSection('sec1');
-                }, 800);
-            } else { alert("الكود خاطئ يا أمولتي ❤️"); }
+                document.getElementById('password-screen').style.transform = 'translateY(-100%)';
+                document.getElementById('dotContainer').style.display = 'flex';
+                setTimeout(() => { showSection('sec1'); }, 500);
+            } else { 
+                alert("الباسورد خطأ يا أمولتي ❤️"); 
+            }
         }
 
+        // التنقل بين السيكشنز
         function showSection(id) {
+            // إيقاف الفيديو عند الخروج من السيكشن الخاص به
+            const video = document.getElementById('v1');
+            if (id !== 'sec6') { video.pause(); }
+
             document.querySelectorAll('section').forEach(s => {
                 s.style.display = 'none';
                 s.style.opacity = '0';
@@ -175,43 +250,60 @@
             const target = document.getElementById(id);
             target.style.display = 'flex';
             setTimeout(() => { target.style.opacity = '1'; }, 50);
-            if (id === 'sec5') { initFinalEffect(); }
+
+            // تحديث حالة النقط
+            const step = parseInt(id.replace('sec', ''));
+            document.querySelectorAll('.dot').forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === step - 1);
+            });
+
+            if (id === 'sec7') { initHearts(); }
         }
 
-        function initFinalEffect() {
-            const canvas = document.getElementById('bg-canvas');
+        // خلفية القلوب المتطايرة
+        function initHearts() {
+            const canvas = document.getElementById('heartCanvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             let particles = [];
+
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 3 + 1;
-                    this.speedX = Math.random() * 1 - 0.5;
-                    this.speedY = Math.random() * 1 - 0.5;
-                    this.color = Math.random() > 0.5 ? '#ff4d6d' : '#ffffff';
+                    this.y = canvas.height + 50;
+                    this.size = Math.random() * 8 + 4;
+                    this.speed = Math.random() * 3 + 1;
                 }
-                update() { this.x += this.speedX; this.y += this.speedY; if (this.size > 0.2) this.size -= 0.01; }
-                draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-            }
-            function handleParticles() {
-                for (let i = 0; i < 5; i++) { particles.push(new Particle()); }
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
-                    if (particles[i].size <= 0.3) { particles.splice(i, 1); i--; }
+                draw() {
+                    ctx.fillStyle = '#ff4d6d';
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.bezierCurveTo(this.x-this.size, this.y-this.size, this.x-this.size, this.y-this.size*2, this.x, this.y-this.size*2);
+                    ctx.bezierCurveTo(this.x+this.size, this.y-this.size*2, this.x+this.size, this.y-this.size, this.x, this.y);
+                    ctx.fill();
+                }
+                update() { 
+                    this.y -= this.speed; 
+                    if(this.y < -50) this.y = canvas.height + 50; 
                 }
             }
-            function animate() {
-                ctx.fillStyle = 'rgba(0,0,0,0.05)';
-                ctx.fillRect(0,0, canvas.width, canvas.height);
-                handleParticles();
-                requestAnimationFrame(animate);
+
+            for(let i=0; i<40; i++) particles.push(new Particle());
+
+            function anim() {
+                if (document.getElementById('sec7').style.display !== 'flex') return;
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(anim);
             }
-            animate();
+            anim();
         }
+
+        // دعم زر Enter في الباسورد
+        document.getElementById('passInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPassword();
+        });
     </script>
 </body>
 </html>
